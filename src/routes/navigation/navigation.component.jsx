@@ -3,15 +3,10 @@ import { Fragment, useContext } from "react";
 import { ReactComponent as Logo } from "../../assets/ktstore-logo.svg";
 import "./navigation.styles.scss";
 import { UserContext } from "../../context/user.context";
-import { userSignOut } from "../../utils/firebase/firebase.utils";
+import { signOutUser } from "../../utils/firebase/firebase.utils";
 
 const Navigation = () => {
-  const { currentUser, setCurrentUser } = useContext(UserContext);
-
-  const signOutHandler = async () => {
-    await userSignOut()
-    setCurrentUser(null)
-  }
+  const { currentUser } = useContext(UserContext);
 
   return (
     <Fragment>
@@ -24,7 +19,7 @@ const Navigation = () => {
             SHOP
           </Link>
           {currentUser ? (
-            <span className="nav-link" onClick={signOutHandler}>SIGN OUT</span>
+            <span className="nav-link" onClick={signOutUser}>SIGN OUT</span>
           ) : (
             <Link className="nav-link" to="/auth">
               SIGN IN
