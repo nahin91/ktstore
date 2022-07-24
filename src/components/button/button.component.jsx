@@ -1,10 +1,3 @@
-/*
-default
-
-inverted
-
-google sign in
- */
 import './button.styles.scss'
 
 const BUTTON_TYPE_CLASSES = {
