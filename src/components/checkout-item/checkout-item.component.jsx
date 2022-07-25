@@ -9,8 +9,6 @@ const CheckoutItem = ({ checkoutItem, addItemToCart, removeItemFromCart }) => {
       </div>
       <span className="name">{name}</span>
       <span className="quantity">{quantity}</span>
-      {/* <span onClick={() => removeItemFromCart(checkoutItem)}>decrement</span>
-      <span onClick={() => addItemToCart(checkoutItem)}>increment</span> */}
       <span className="price">{price * quantity}</span>
       <div className="remove-button">&#10005;</div>
     </div>
@@ -18,3 +16,7 @@ const CheckoutItem = ({ checkoutItem, addItemToCart, removeItemFromCart }) => {
 };
 
 export default CheckoutItem;
+{
+  /* <span onClick={() => removeItemFromCart(checkoutItem)}>decrement</span>
+      <span onClick={() => addItemToCart(checkoutItem)}>increment</span> */
+}
