@@ -7,9 +7,16 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
-  onAuthStateChanged
+  onAuthStateChanged,
 } from "firebase/auth";
-import {getFirestore, doc, getDoc, setDoc} from 'firebase/firestore'
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  collection,
+  writeBatch,
+} from "firebase/firestore";
 
 // My web app's Firebase configuration
 const firebaseConfig = {
@@ -25,56 +32,79 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 
 // initalizing google authentication provider
-const provider = new GoogleAuthProvider()
+const provider = new GoogleAuthProvider();
 provider.setCustomParameters({
-    propmt: "select_account"
-})
+  propmt: "select_account",
+});
 
-export const auth = getAuth()
+export const auth = getAuth();
 
-export const signInWithGooglePopup = () => signInWithPopup(auth, provider)
+export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
 
-export const signInWithGoogleRedirect = () => signInWithRedirect(auth, provider)
+export const signInWithGoogleRedirect = () =>
+  signInWithRedirect(auth, provider);
 
-export const db = getFirestore()
+export const db = getFirestore();
 
-export const createUserDocumentFromAuth = async (userAuth, additionalInformation={}) => {
-    if(!userAuth) return;
-    
-    const userDocRef = doc(db, 'users', userAuth.uid)
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+    const collectionRef = collection(db, collectionKey)
+    const batch = writeBatch(db)
 
-    const userSnapshot = await getDoc(userDocRef)
+    objectsToAdd.forEach((object) => {
+        const docRef = doc(collectionRef, object.title.toLowerCase())
+        batch.set(docRef, object)
+    })
 
-    if(!userSnapshot.exists()){
-        const {displayName, email} = userAuth
-        const createdAt = new Date()
-
-        try{
-            await setDoc(userDocRef, {displayName, email, createdAt, ...additionalInformation})
-        }catch(error){
-            console.log('error creating the user: ', error.message)
-        }
-    }
-
-    return userDocRef
-
+    console.log('started')
+    await batch.commit()
+    console.log('done')
 }
 
-//creating user with email and password, allowes to control the large mejority of 
+export const createUserDocumentFromAuth = async (
+  userAuth,
+  additionalInformation = {}
+) => {
+  if (!userAuth) return;
+
+  const userDocRef = doc(db, "users", userAuth.uid);
+
+  const userSnapshot = await getDoc(userDocRef);
+
+  if (!userSnapshot.exists()) {
+    const { displayName, email } = userAuth;
+    const createdAt = new Date();
+
+    try {
+      await setDoc(userDocRef, {
+        displayName,
+        email,
+        createdAt,
+        ...additionalInformation,
+      });
+    } catch (error) {
+      console.log("error creating the user: ", error.message);
+    }
+  }
+
+  return userDocRef;
+};
+
+//creating user with email and password, allowes to control the large mejority of
 //the application interfaces with this external service coming from firebase
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
-    if(!email || !password) return;
-    
-    return await createUserWithEmailAndPassword(auth, email, password);
-}
+  if (!email || !password) return;
+
+  return await createUserWithEmailAndPassword(auth, email, password);
+};
 
 export const signInAuthUserWithEmailAndPassword = async (email, password) => {
-    if(!email || !password) return;
-    
-    return await signInWithEmailAndPassword(auth, email, password);
-}
+  if (!email || !password) return;
 
-export const signOutUser = async () => await signOut(auth)
+  return await signInWithEmailAndPassword(auth, email, password);
+};
 
-export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth, callback)
+export const signOutUser = async () => await signOut(auth);
+
+export const onAuthStateChangedListener = (callback) =>
+  onAuthStateChanged(auth, callback);

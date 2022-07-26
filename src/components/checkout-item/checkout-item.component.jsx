@@ -10,8 +10,9 @@ const CheckoutItem = ({ checkoutItem }) => {
   const { name, imageUrl, price, quantity } = checkoutItem;
 
   const clearItemHandler = () => clearItemFromCart(checkoutItem);
-  const addItemHandler = () => addItemToCart(checkoutItem)
-  const removeItemHandler = () => removeItemFromCart(checkoutItem)
+  const addItemHandler = () => addItemToCart(checkoutItem);
+  const removeItemHandler = () => removeItemFromCart(checkoutItem);
+
   return (
     <div className="checkout-item-container">
       <div className="image-container">
