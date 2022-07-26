@@ -1,6 +1,6 @@
 import { Outlet, Link } from "react-router-dom";
 import { Fragment, useContext } from "react";
-import { ReactComponent as Logo } from "../../assets/ktstore-logo.svg";
+import { ReactComponent as Logo } from "../../assets/logo.svg";
 import "./navigation.styles.scss";
 import { UserContext } from "../../contexts/user.context";
 import { CartContext } from "../../contexts/cart.context";
@@ -15,7 +15,7 @@ const Navigation = () => {
   return (
     <Fragment>
       <div className="navigation">
-        <Link className="logo-container" to="/">
+        <Link className="logo-container" to="/" style={{padding:0}}>
           <Logo className="logo" />
         </Link>
         <div className="nav-links-container">
