@@ -7,32 +7,32 @@ import {
 
 import SHOP_DATA from "../shop-data";
 
-export const ProductsContext = createContext({
-  products: [],
+export const CategoriesContext = createContext({
+  categoriesMap: {},
 });
 
-export const ProductsProvider = ({ children }) => {
-  const [products, setProducts] = useState([]);
-  const value = { products };
+export const CategoriesProvider = ({ children }) => {
+  const [categoriesMap, setCategoriesMap] = useState({});
+  const value = { categoriesMap };
 
   //FIX: this is code was written to upload the json object data to the firebase DB. after upload it is commented for future reference
   // useEffect(() => {
-  //   addCollectionAndDocuments('categories', SHOP_DATA)
+  //   addCollectionAndDocuments('categoriesMap', SHOP_DATA)
   // }, []);
 
-  //TODO: remember! async func cannot be called directly inside useEffect for that followin way should be practiced
   useEffect(() => {
     const getCategoriesMap = async () => {
       const categoryMap = await getCategoriesAndDocuments()
       console.log(categoryMap)
+      setCategoriesMap(categoryMap)
     }
 
     getCategoriesMap()
-  })
+  }, [])
 
   return (
-    <ProductsContext.Provider value={value}>
+    <CategoriesContext.Provider value={value}>
       {children}
-    </ProductsContext.Provider>
+    </CategoriesContext.Provider>
   );
 };
