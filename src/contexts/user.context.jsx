@@ -16,9 +16,11 @@ export const USER_ACTION_TYPES = {
   SET_CURRENT_USER: "SET_CURRENT_USER",
 };
 
+const INITIAL_STATE = {
+  currentUser: null,
+};
+
 const userReducer = (state, action) => {
-  console.log('dispatch')
-  console.log(action)
   const { type, payload } = action;
 
   switch (type) {
@@ -32,16 +34,13 @@ const userReducer = (state, action) => {
   }
 };
 
-const INITIAL_STATE = {
-  currentUser: null,
-};
 
 export const UserProvider = ({ children }) => {
   // const [currentUser, setCurrentUser] = useState(null);
 
   {
     /**
-  useReducer always gets 2 parameters: reducer & initia_state
+  useReducer always gets 2 parameters: reducer & initial_state
   and
   we always get 2 things out of useReducer: the current_state & 'dispatch' function
   **/
