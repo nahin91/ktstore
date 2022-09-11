@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect, useReducer } from "react";
 
-import { createAction } from "../utils/reducer/reducer";
+import { createAction } from "../utils/reducer/reducer.utils";
 
 const addCartItem = (cartItems = [], productToAdd) => {
   //TODO: check if cartItem[] contains productToAdd

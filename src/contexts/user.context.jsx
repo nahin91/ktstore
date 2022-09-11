@@ -4,7 +4,7 @@ import {
   createUserDocumentFromAuth,
 } from "../utils/firebase/firebase.utils";
 
-import { createAction } from "../utils/reducer/reducer";
+import { createAction } from "../utils/reducer/reducer.utils";
 
 //as the actual value i want to access
 export const UserContext = createContext({
