@@ -12,6 +12,7 @@ import Authentication from "./routes/authentication/authentication.component";
 import Shop from "./routes/shop/shop.component";
 import CheckOut from "./routes/checkout/checkout.component";
 import { setCurrentUser } from "./store/user/user.action";
+import { setCategoriesMap } from "./store/categories/category.action";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -25,6 +26,8 @@ const App = () => {
 
     return unsubscribe;
   }, []);
+
+
 
   return (
     <Routes>
