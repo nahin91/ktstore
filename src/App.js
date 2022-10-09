@@ -15,11 +15,10 @@ import { setCurrentUser } from "./store/user/user.action";
 import { setCategoriesMap } from "./store/categories/category.action";
 
 const App = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); //this dispatch will never get updated, remains same
 
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener((user) => {
-      console.log(user);
       if (user) createUserDocumentFromAuth(user);
       dispatch(setCurrentUser(user));
     });
