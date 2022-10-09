@@ -1,28 +1,27 @@
 import { compose, applyMiddleware, legacy_createStore  as createStore } from "redux";
-// import logger from "redux-logger";
+import { persistStore, persistReducer } from "redux-persist"
+import storage from 'redux-persist/lib/storage'
+import logger from "redux-logger";
 
 import { rootReducer } from "./root-reducer";
+import { myLoggerMiddleware } from "./middleware/logger";
 
 
-// this is curryFunction
-const loggerMiddleware = (store) => (next) => (action) => {
-    if (!action.type){
-        return next(action)
-    }
-
-    console.log('type: ', action.type)
-    console.log('payload: ', action.payload)
-    console.log('currentState: ', store.getState())
-
-    next(action)
-
-    console.log('next state: ', store.getState())
+const persistConfig = {
+    key: 'root',
+    storage, // short-hand code for [storage: storage]
+    blackList: ['user'], // to avoid conflicts with local storage 
 }
 
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
 // library-helper that runs before the action hits the reducer & logs out our state.
-// const middleWares = [logger]
-const middleWares = [loggerMiddleware]
+const middleWares = [ process.env.NODE_ENV !== 'production' && logger].filter(Boolean) // this is to indicate that if we are in the development state then use middleware other wise dont use this code for the production. 
 
-const composedEnhancers = compose(applyMiddleware(...middleWares))
+const composeEnhancer = (process.env.NODE_ENV !== 'production'  && window  && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose
 
-export const store = createStore(rootReducer, undefined, composedEnhancers)
+const composedEnhancers = composeEnhancer(applyMiddleware(...middleWares))
+
+export const store = createStore(persistedReducer, undefined, composedEnhancers)
+
+export const persistor = persistStore(store)
