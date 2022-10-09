@@ -1,43 +1,48 @@
-import { useContext } from "react";
+import { useDispatch, useSelector } from 'react-redux';
 
-import { CartContext } from "../../contexts/cart.context";
+import {
+  clearItemsFromCart,
+  addItemToCart,
+  removeItemFromCart,
+} from '../../store/cart/cart.action';
+import { selectCartItems } from '../../store/cart/cart.selector';
 
-import "./checkout-item.styles.scss";
+import {
+  CheckoutItemContainer,
+  ImageContainer,
+  BaseSpan,
+  Quantity,
+  Arrow,
+  Value,
+  RemoveButton,
+} from './checkout-item.styles';
 
-const CheckoutItem = ({ checkoutItem }) => {
-  const { addItemToCart, removeItemFromCart, clearItemFromCart } =
-    useContext(CartContext);
-  const { name, imageUrl, price, quantity } = checkoutItem;
+const CheckoutItem = ({ cartItem }) => {
+  const { name, imageUrl, price, quantity } = cartItem;
+  const dispatch = useDispatch();
+  const cartItems = useSelector(selectCartItems);
 
-  const clearItemHandler = () => clearItemFromCart(checkoutItem);
-  const addItemHandler = () => addItemToCart(checkoutItem);
-  const removeItemHandler = () => removeItemFromCart(checkoutItem);
+  const clearItemHandler = () =>
+    dispatch(clearItemsFromCart(cartItems, cartItem));
+  const addItemHandler = () => dispatch(addItemToCart(cartItems, cartItem));
+  const removeItemHandler = () =>
+    dispatch(removeItemFromCart(cartItems, cartItem));
 
   return (
-    <div className="checkout-item-container">
-      <div className="image-container">
+    <CheckoutItemContainer>
+      <ImageContainer>
         <img src={imageUrl} alt={`${name}`} />
-      </div>
-      <span className="name">{name}</span>
-      <span className="price">${price}</span>
-      <span className="quantity">
-        <div className="arrow" onClick={removeItemHandler}>
-          &#8722;
-        </div>
-        <span className="value">{quantity}</span>
-        <div className="arrow" onClick={addItemHandler}>
-          &#43;
-        </div>
-      </span>
-      <div className="remove-button" onClick={clearItemHandler}>
-        &#10005;
-      </div>
-    </div>
+      </ImageContainer>
+      <BaseSpan> {name} </BaseSpan>
+      <Quantity>
+        <Arrow onClick={removeItemHandler}>&#10094;</Arrow>
+        <Value>{quantity}</Value>
+        <Arrow onClick={addItemHandler}>&#10095;</Arrow>
+      </Quantity>
+      <BaseSpan> {price}</BaseSpan>
+      <RemoveButton onClick={clearItemHandler}>&#10005;</RemoveButton>
+    </CheckoutItemContainer>
   );
 };
 
 export default CheckoutItem;
-{
-  /* <span onClick={() => removeItemFromCart(checkoutItem)}>decrement</span>
-      <span onClick={() => addItemToCart(checkoutItem)}>increment</span> */
-}

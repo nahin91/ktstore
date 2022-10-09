@@ -101,15 +101,6 @@ export const CartProvider = ({ children }) => {
       0
     );
 
-    // dispatch({
-    //   type: CART_ACTION_TYPES.SET_CART_ITEMS,
-    //   payload:{
-    //     cartItems: newCartItems,
-    //     cartCount: newCartCount,
-    //     subTotal: totalPrice
-    //   }
-    // })
-
     // this is optimised code of above
     dispatch(
       createAction(CART_ACTION_TYPES.SET_CART_ITEMS, {
