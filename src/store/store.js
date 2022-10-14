@@ -11,7 +11,7 @@ import { myLoggerMiddleware } from "./middleware/logger";
 const persistConfig = {
     key: 'root',
     storage, // short-hand code for [storage: storage]
-    blackList: ['user'], // to avoid conflicts with local storage 
+    whitelist: ['cart'], // to avoid conflicts with local storage 
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

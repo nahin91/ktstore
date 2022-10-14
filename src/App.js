@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Routes, Route } from "react-router-dom";
 import {
@@ -16,6 +16,11 @@ import { setCategoriesMap } from "./store/categories/category.action";
 
 const App = () => {
   const dispatch = useDispatch(); //this dispatch will never get updated, remains same
+  const [isDesktop, setDesktop] = useState(window.innerWidth > 1250);
+
+  const updateMedia = () => {
+    setDesktop(window.innerWidth > 1250);
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener((user) => {
@@ -26,10 +31,16 @@ const App = () => {
     return unsubscribe;
   }, []);
 
+  useEffect(() => {
+    window.addEventListener("resize", updateMedia);
+    return () => window.removeEventListener("resize", updateMedia);
+  });
+
 
 
   return (
-    <Routes>
+    <div style={{padding: `0px ${isDesktop? '5%' : '0px'}`}}>
+      <Routes>
       <Route path="/" element={<Navigation />}>
         <Route index element={<Home />} />
         <Route path="shop/*" element={<Shop />} />
@@ -37,6 +48,7 @@ const App = () => {
         <Route path="checkout" element={<CheckOut />} />
       </Route>
     </Routes>
+    </div>
   );
 };
 
