@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Routes, Route } from "react-router-dom";
 import {
-  onAuthStateChangedListener,
-  createUserDocumentFromAuth,
   getCurrentuser
 } from "./utils/firebase/firebase.utils";
 
@@ -12,8 +10,7 @@ import Navigation from "./routes/navigation/navigation.component";
 import Authentication from "./routes/authentication/authentication.component";
 import Shop from "./routes/shop/shop.component";
 import CheckOut from "./routes/checkout/checkout.component";
-import { setCurrentUser } from "./store/user/user.action";
-import { setCategoriesMap } from "./store/categories/category.action";
+import { checkUserSession } from "./store/user/user.action";
 
 const App = () => {
   const dispatch = useDispatch(); //this dispatch will never get updated, remains same
@@ -24,7 +21,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    getCurrentuser().then((user) => console.log(user));
+    dispatch(checkUserSession())
   }, []);
 
   useEffect(() => {

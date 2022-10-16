@@ -99,7 +99,7 @@ export const createUserDocumentFromAuth = async (
     }
   }
 
-  return userDocRef;
+  return userSnapshot;
 };
 
 //creating user with email and password, allowes to control the large mejority of
