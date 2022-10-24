@@ -1,17 +1,19 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const CheckoutItemContainer = styled.div`
   width: 100%;
+  height: 250px;
   display: flex;
   min-height: 100px;
   border-bottom: 1px solid darkgrey;
-  padding: 15px 0;
+  padding: 12px 0px;
   font-size: 20px;
   align-items: center;
 `;
 
 export const ImageContainer = styled.div`
   width: 23%;
+  height: 224px;
   padding-right: 15px;
   img {
     width: 100%;
@@ -20,7 +22,7 @@ export const ImageContainer = styled.div`
 `;
 
 export const BaseSpan = styled.span`
-  width: 23%;
+  width: 100%;
 `;
 
 export const Quantity = styled(BaseSpan)`
@@ -36,6 +38,22 @@ export const Value = styled.span`
 `;
 
 export const RemoveButton = styled.div`
-  padding-left: 12px;
+  width: fit-content;
+  padding: 0px 12px;
   cursor: pointer;
+  border: 1px solid grey;
+  border-radius: 4px;
+  color: #2b64d2;
+`;
+
+export const InfoContainer = styled.div`
+  // flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
+export const Price = styled.span`
+  width: 10%;
+  text-align: end;
 `;

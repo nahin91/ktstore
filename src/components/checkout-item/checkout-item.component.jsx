@@ -1,11 +1,11 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   clearItemsFromCart,
   addItemToCart,
   removeItemFromCart,
-} from '../../store/cart/cart.action';
-import { selectCartItems } from '../../store/cart/cart.selector';
+} from "../../store/cart/cart.action";
+import { selectCartItems } from "../../store/cart/cart.selector";
 
 import {
   CheckoutItemContainer,
@@ -15,7 +15,9 @@ import {
   Arrow,
   Value,
   RemoveButton,
-} from './checkout-item.styles';
+  InfoContainer,
+  Price,
+} from "./checkout-item.styles";
 
 const CheckoutItem = ({ cartItem }) => {
   const { name, imageUrl, price, quantity } = cartItem;
@@ -33,14 +35,22 @@ const CheckoutItem = ({ cartItem }) => {
       <ImageContainer>
         <img src={imageUrl} alt={`${name}`} />
       </ImageContainer>
-      <BaseSpan> {name} </BaseSpan>
-      <Quantity>
-        <Arrow onClick={removeItemHandler}>&#10094;</Arrow>
-        <Value>{quantity}</Value>
-        <Arrow onClick={addItemHandler}>&#10095;</Arrow>
-      </Quantity>
-      <BaseSpan> {price}</BaseSpan>
-      <RemoveButton onClick={clearItemHandler}>&#10005;</RemoveButton>
+      <div style={{ flexGrow: 1, height: "inherit", padding: 12 }}>
+        <InfoContainer>
+          <BaseSpan> {name} </BaseSpan>
+          <span>size: S</span>
+          <Quantity>
+            <span style={{marginRight: 16}}>Quantity:</span>
+            <Arrow onClick={removeItemHandler}>&#10094;</Arrow>
+            <Value>{quantity}</Value>
+            <Arrow onClick={addItemHandler}>&#10095;</Arrow>
+          </Quantity>
+          <RemoveButton onClick={clearItemHandler}>remove</RemoveButton>
+        </InfoContainer>
+      </div>
+      <div style={{ height: "inherit", textAlign: "end" }}>
+        <Price>$ {price}</Price>
+      </div>
     </CheckoutItemContainer>
   );
 };
